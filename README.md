@@ -19,3 +19,5 @@ https://assetstore.unity.com/packages/3d/environments/low-poly-environment-natur
 
 Non-Imported Assets:
 NPC models, Title Screen, 
+
+// Copyright 2026 Phuong Nguyen. All rights reserved.
