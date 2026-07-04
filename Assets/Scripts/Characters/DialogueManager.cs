@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -36,9 +37,16 @@ public class DialogueManager : MonoBehaviour
         {
             return Instance;
         }
+
         Instance = FindFirstObjectByType<DialogueManager>();
+        if (Instance != null)
+        {
+            return Instance; // Fixed: Safely return the scene instance if found
+        }
+
         GameObject managerObject = new GameObject("DialogueManager");
-        return managerObject.AddComponent<DialogueManager>();
+        Instance = managerObject.AddComponent<DialogueManager>();
+        return Instance;
     }
 
     private void Update()
@@ -48,7 +56,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             ContinueDialogue();
         }
@@ -125,6 +133,8 @@ public class DialogueManager : MonoBehaviour
         }
 
         string currentLine = dialogueLines[lineIndex];
+        
+        // If the text is still typing out, instantly complete it instead of moving forward
         if (dialogueContentText.text != currentLine)
         {
             if (typeCoroutine != null)
@@ -137,6 +147,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        // If the line was already complete, move to the next line or close out
         if (lineIndex < dialogueLines.Length - 1)
         {
             lineIndex++;

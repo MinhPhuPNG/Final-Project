@@ -55,12 +55,12 @@ public class PlayerNpcInteraction : MonoBehaviour
 
             if (showPrompt)
             {
-                npcPromptText.text = "Press E to talk";
+                npcPromptText.text = "Press F to talk";
             }
         }
     }
 
-    public void OnInteract(InputValue value)
+    public void OnTalk(InputValue value)
     {
         if (value == null || !value.isPressed)
         {
@@ -73,10 +73,10 @@ public class PlayerNpcInteraction : MonoBehaviour
             return;
         }
 
-        TryInteract();
+        TryTalk();
     }
 
-    private void TryInteract()
+    private void TryTalk()
     {
         if (currentNPC != null)
         {
