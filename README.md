@@ -1,6 +1,7 @@
 Name:
 TBD
 
+To Launch: Simply press play in unity either from gamescene or mainmenu
 Concept:
 First Person simple story game where you follow the objectives listed, with a start scene to introduce NPC's visual novel dialogues. Gameplay will include collecting ingredients, brewing potions, and tracing spells to avoid expulsion.
 
