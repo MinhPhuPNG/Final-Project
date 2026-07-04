@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 381c64100d82540f7ad84edbe5590d6e, type: 3}
       propertyPath: m_Name
-      value: CounselourModel
+      value: Counselor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -73,7 +73,7 @@ PrefabInstance:
       addedObject: {fileID: -7205782606901629171}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 381c64100d82540f7ad84edbe5590d6e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -244616274641148308}
+      addedObject: {fileID: 7257751605398818525}
   m_SourcePrefab: {fileID: 100100000, guid: 381c64100d82540f7ad84edbe5590d6e, type: 3}
 --- !u!1 &8448496651224161110 stripped
 GameObject:
@@ -103,7 +103,7 @@ CapsuleCollider:
   m_Height: 2.4240348
   m_Direction: 1
   m_Center: {x: -0.00000036679782, y: -0.00000018339891, z: 0.31281456}
---- !u!114 &-244616274641148308
+--- !u!114 &7257751605398818525
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,5 +114,5 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cd3970be48de4f6bb8d3305aa1bb516, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Counselor
+  m_EditorClassIdentifier: Assembly-CSharp::CounselorNPC
   npcName: Counselor
