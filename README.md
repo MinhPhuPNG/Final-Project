@@ -1,15 +1,15 @@
 Name:
-To be Determined
+TBD
 
 Concept:
 First Person simple story game where you follow the objectives listed, with a start scene to introduce NPC's visual novel dialogues. Gameplay will include collecting ingredients, brewing potions, and tracing spells to avoid expulsion.
 
 Controls:
-Basic WASD and Mouse movements, with interactions by pressing E.
+Basic WASD and Mouse movements, Left Mouse button to Jump, with interactions by pressing E and F.
 
 Checkpoint 1:
 Functionality - Resource collection script for future implementations of resources, first person controls, basic dialogue prompt interaction.
-
+Character can move, start and cycle through a dialogue with the NPC, and 3 resources can be kept track of currently. Future plans are to implement a recipe based potion game with new resource assets, replacing current resources.
 
 Imported Assets:
 https://assetstore.unity.com/packages/essentials/starter-assets-firstperson-urp-196525
