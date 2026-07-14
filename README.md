@@ -11,9 +11,12 @@ Basic WASD and Mouse movements, Left Mouse button to Jump, with interactions by 
 Checkpoint 1:
 Functionality - Resource collection script for future implementations of resources, first person controls, basic dialogue prompt interaction.
 Character can move, start and cycle through a dialogue with the NPC, and 3 resources can be kept track of currently. Future plans are to implement a recipe based potion game with new resource assets, replacing current resources.
+
 Checkpoint 2:
-Functionality - Added doors, completed map setup, inventory system, and added cauldron recipe interactions.
+Functionality - Added doors + completed skeleton of map needed, object interactions with potion and ingredients + inventory.
 Character can move, start and cycle through a dialogue with the NPC, and 3 resources can be kept track of currently. Future plans are to implement a recipe based potion game with new resource assets, replacing current resources.
+
+
 Imported Assets:
 https://assetstore.unity.com/packages/essentials/starter-assets-firstperson-urp-196525
 https://assetstore.unity.com/packages/3d/environments/stylized-hand-painted-dungeon-free-173934
