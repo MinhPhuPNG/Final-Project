@@ -21,7 +21,10 @@ Imported Assets:
 https://assetstore.unity.com/packages/essentials/starter-assets-firstperson-urp-196525
 https://assetstore.unity.com/packages/3d/environments/stylized-hand-painted-dungeon-free-173934
 https://assetstore.unity.com/packages/3d/environments/low-poly-environment-nature-free-lowpoly-medieval-fantasy-series-187052
+
 https://assetstore.unity.com/packages/3d/environments/dungeons/lite-dungeon-pack-low-poly-3d-art-by-gridness-242692
+https://assetstore.unity.com/packages/p/medieval-tavern-pack-112546
+
 
 Non-Imported Assets:
 NPC models, Title Screen, 
