@@ -56,7 +56,7 @@ public class PlayerInteract : MonoBehaviour
         {
             if (currentResource != null)
             {
-                resourcePromptText.text = "Press E to harvest";
+                resourcePromptText.text = currentResource.promptText;
                 resourcePromptText.gameObject.SetActive(true);
             }
             else
