@@ -14,7 +14,7 @@ Character can move, start and cycle through a dialogue with the NPC, and 3 resou
 
 Checkpoint 2:
 Functionality - Added doors + completed skeleton of map needed, object interactions with potion and ingredients + inventory.
-Character can move, start and cycle through a dialogue with the NPC, and 3 resources can be kept track of currently. Future plans are to implement a recipe based potion game with new resource assets, replacing current resources.
+Future plans are to polish the potion system, navigation, and overall gameplay flow/ui cleanup.
 
 
 Imported Assets:
