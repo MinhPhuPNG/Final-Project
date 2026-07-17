@@ -6,7 +6,13 @@ public enum QuestState
     GoToGardeningClub,
     GardeningClubTutorial,
     AlchemyDelivery,
-    AlchemyTutorial
+    AlchemyTutorial,
+    MeetOccult,
+    GardenHarvest,
+    PotionBrew,
+    ConsultOccult,
+    FinalSummoning,
+    GameComplete
 }
 
 public class StoryManager : MonoBehaviour

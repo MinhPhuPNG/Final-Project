@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6906461311312377501}
   - component: {fileID: 684340061296560768}
   - component: {fileID: -6065957241637259302}
+  - component: {fileID: 7691561489642232875}
   m_Layer: 0
   m_Name: Potion_Blue
   m_TagString: Untagged
@@ -135,3 +136,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.13582927, y: 0.29992896, z: 0.15684217}
   m_Center: {x: 0.000000011175871, y: 0.14835408, z: -0.000000029802322}
+--- !u!114 &7691561489642232875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4453110336206570162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baf8c7aca83d24a8f8b1c9d254889a28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PotionPickup
+  resourceName: Potion
+  amountPerHarvest: 1
+  usesRemaining: 1
+  promptText: Press E to pickup
+  destroyWhenEmpty: 1
+  potionID: 1

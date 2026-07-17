@@ -13,7 +13,17 @@ public class ResourceCounter : MonoBehaviour
         UpdateUI();
     }
 
-    // Update is called once per frame
+    public int GetMushroomCount() => mushrooms;
+    public int GetPurpleFlowerCount() => purpleFlowers;
+    public int GetTreeShroomCount() => treeShrooms;
+    public void ConsumeResources(int mushroomAmt, int flowerAmt, int treeShroomAmt)
+    {
+        mushrooms -= mushroomAmt;
+        purpleFlowers -= flowerAmt;
+        treeShrooms -= treeShroomAmt;
+        
+        UpdateUI();
+    }
     private void UpdateUI()
     {
         mushroomText.text = "Mushrooms: " + mushrooms;

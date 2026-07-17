@@ -196,5 +196,7 @@ MonoBehaviour:
   resourceName: Door
   amountPerHarvest: 1
   usesRemaining: 1000
-  promptText: Press E to Open
+  promptText: Spam E to Open
   destroyWhenEmpty: 0
+  waitTimeBeforeClose: 3
+  doorSpeed: 150
