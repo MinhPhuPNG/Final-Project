@@ -1,5 +1,5 @@
 Name:
-TBD
+3x20
 
 To Launch: Simply press play in unity either from gamescene or mainmenu
 Concept:
