@@ -8,7 +8,7 @@ public class PlayerNpcInteraction : MonoBehaviour
     public float npcRange = 6f;
     public TextMeshProUGUI npcPromptText;
 
-    private CounselorNPC currentNPC;
+    private InteractableNPC currentNPC;
     private DialogueManager dialogueManager;
 
     private void Start()
@@ -34,7 +34,7 @@ public class PlayerNpcInteraction : MonoBehaviour
 
         foreach (Collider hit in hits)
         {
-            CounselorNPC npc = hit.GetComponentInParent<CounselorNPC>();
+            InteractableNPC npc = hit.GetComponentInParent<InteractableNPC>();
             if (npc == null)
             {
                 continue;

@@ -7,6 +7,7 @@ public enum QuestState
     GardeningClubTutorial,
     AlchemyDelivery,
     AlchemyTutorial,
+    AlchemyTutorialComplete,
     MeetOccult,
     GardenHarvest,
     PotionBrew,

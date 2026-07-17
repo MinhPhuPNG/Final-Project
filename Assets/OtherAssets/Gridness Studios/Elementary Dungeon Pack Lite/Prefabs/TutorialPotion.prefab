@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -6065957241637259302}
   - component: {fileID: 7691561489642232875}
   m_Layer: 0
-  m_Name: Potion_Blue
+  m_Name: TutorialPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baf8c7aca83d24a8f8b1c9d254889a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PotionPickup
-  resourceName: Potion
+  resourceName: TutorialPotion
   amountPerHarvest: 1
   usesRemaining: 1
   promptText: Press E to pickup
   destroyWhenEmpty: 1
-  potionID: 2
+  potionID: 1

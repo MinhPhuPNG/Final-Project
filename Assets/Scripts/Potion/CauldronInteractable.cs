@@ -49,7 +49,7 @@ public class CauldronInteractable : InteractableResource
             TriggerBrewSuccess();
             hasBrewed = true;
 
-            ShowDialoguePrompt("The brewing seems to work, you pick it up.");
+            ShowDialoguePrompt("The brewing seems to work, make sure to pick up the bottle.");
 
             if (activeQuestPhase == QuestState.AlchemyTutorial)
             {

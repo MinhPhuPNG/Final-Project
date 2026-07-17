@@ -85,8 +85,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractableResource
   resourceName: Mushroom
-  amountPerHarvest: 1
-  usesRemaining: 3
+  amountPerHarvest: 2
+  usesRemaining: 1
   promptText: Press E to harvest
   destroyWhenEmpty: 1
 --- !u!65 &8486240687528399903

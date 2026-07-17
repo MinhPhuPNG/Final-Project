@@ -13,10 +13,6 @@ public class PotionUIController : MonoBehaviour
 
     void Start()
     {
-        if (potionPanel != null) potionPanel.SetActive(false);
-        if (potionImage2 != null) potionImage2.SetActive(false);
-        if (potionImage3 != null) potionImage3.SetActive(false);
-
         if (StoryManager.Instance != null)
         {
             lastState = StoryManager.Instance.currentQuestState;

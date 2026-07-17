@@ -153,4 +153,4 @@ MonoBehaviour:
   usesRemaining: 1
   promptText: Press E to pickup
   destroyWhenEmpty: 1
-  potionID: 2
+  potionID: 3

@@ -1,10 +1,12 @@
 using UnityEngine;
 using TMPro;
-public class CounselorNPC : MonoBehaviour
+public class Counselor : InteractableNPC
 {
-    public string npcName = "Counselor";
-
-    public void Talk()
+    private void Start()
+    {
+        npcName = "Counselor";
+    }
+    public override void Talk()
     {
         DialogueManager dialogueManager = DialogueManager.EnsureInstance();
         if (dialogueManager == null)
