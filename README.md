@@ -13,8 +13,8 @@ Functionality - Resource collection script for future implementations of resourc
 Character can move, start and cycle through a dialogue with the NPC, and 3 resources can be kept track of currently. Future plans are to implement a recipe based potion game with new resource assets, replacing current resources.
 
 Checkpoint 2:
-Functionality - Added doors + completed skeleton of map needed, object interactions with potion and ingredients + inventory.
-Character can move, start and cycle through a dialogue with the NPC, and 3 resources can be kept track of currently. Future plans are to implement a recipe based potion game with new resource assets, replacing current resources.
+Functionality - Added doors + completed skeleton of map needed, object interactions with potion and ingredients.
+Future plans are to polish the potion system, navigation, and overall gameplay flow/ui cleanup.
 
 
 Imported Assets:
