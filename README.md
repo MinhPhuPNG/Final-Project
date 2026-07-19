@@ -1,5 +1,5 @@
 Name:
-TBD
+3x20
 
 To Launch: Simply press play in unity either from gamescene or mainmenu
 Concept:
@@ -13,9 +13,9 @@ Functionality - Resource collection script for future implementations of resourc
 Character can move, start and cycle through a dialogue with the NPC, and 3 resources can be kept track of currently. Future plans are to implement a recipe based potion game with new resource assets, replacing current resources.
 
 Checkpoint 2:
-Functionality - Added doors + completed skeleton of map needed, placeholder npc's with needed flow/dialogue for story progression, cauldron interactions with potion recipes, and temporary ending loop. Certain objects are hidden.
+Functionality - Added doors + completed skeleton of map needed for daytime phase, placeholder npc's with needed flow/dialogue for story progression, cauldron interactions with potion recipes, and temporary ending loop. 
 
-Future plans are to add actual models for different npc's and a 2D art/sprite for each, and overall gameplay flow/ui cleanup. If there's time I will implement one more puzzle/gameplay mechanic to expand/continue the story.
+Future plans are to add actual models for different npc's and a 2D art/sprite for each, and overall gameplay flow/ui cleanup. If there's time I will implement one more puzzle/gameplay mechanic to expand/finish the story.
 
 
 Imported Assets:
