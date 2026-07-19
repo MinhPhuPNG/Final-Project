@@ -51,10 +51,7 @@ public class ObjectiveUI : MonoBehaviour
                 objectiveText.text = "Objective: Ask for your first task.";
                 break;
             case QuestState.GardenHarvest:
-                objectiveText.text = "Objective: Harvest ingredients, avoid the moonlight.";
-                break;
-            case QuestState.ReturnIngredients:
-                objectiveText.text = "Objective: Return for further instructions.";
+                objectiveText.text = "Objective: Harvest ingredients, avoid the moonlight. Return to her when complete";
                 break;
             case QuestState.PotionBrew:
                 objectiveText.text = "Objective: Brew in remaining cauldrons.";
