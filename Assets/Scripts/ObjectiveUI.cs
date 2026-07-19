@@ -47,11 +47,17 @@ public class ObjectiveUI : MonoBehaviour
             case QuestState.MeetOccult:
                 objectiveText.text = "Objective: Enter the Graveyard to find your last chance.";
                 break;
+            case QuestState.NightShift:
+                objectiveText.text = "Objective: Begin your initiation";
+                break;
             case QuestState.GardenHarvest:
                 objectiveText.text = "Objective: Harvest ingredients in the garden.";
                 break;
             case QuestState.PotionBrew:
                 objectiveText.text = "Objective: Brew in the remaining cauldrons.";
+                break;
+            case QuestState.PotionsDone:
+                objectiveText.text = "Objective: Return to the graveyard for next steps";
                 break;
             case QuestState.ConsultOccult:
                 objectiveText.text = "Objective: Find the spellbook.";

@@ -9,8 +9,10 @@ public enum QuestState
     AlchemyTutorial,
     AlchemyTutorialComplete,
     MeetOccult,
+    NightShift,
     GardenHarvest,
     PotionBrew,
+    PotionsDone,
     ConsultOccult,
     FinalSummoning,
     GameComplete
