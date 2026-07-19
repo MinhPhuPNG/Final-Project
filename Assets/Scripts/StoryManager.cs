@@ -12,8 +12,7 @@ public enum QuestState
     NightShift,
     GardenHarvest,
     PotionBrew,
-    PotionsDone,
-    ConsultOccult,
+    FindBook,
     FinalSummoning,
     GameComplete
 }

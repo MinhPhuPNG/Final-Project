@@ -54,4 +54,17 @@ public class PotionUIController : MonoBehaviour
             potionImage3.SetActive(true);
         }
     }
+
+    public bool HasPotion(int id)
+    {
+        if (id == 2 && potionImage2 != null) return potionImage2.activeSelf;
+        if (id == 3 && potionImage3 != null) return potionImage3.activeSelf;
+        return false;
+    }
+
+    // Check if BOTH required potions have been brewed
+    public bool HasBothPotions()
+    {
+        return HasPotion(2) && HasPotion(3);
+    }
 }

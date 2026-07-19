@@ -1,7 +1,9 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class Occult : InteractableNPC
 {
+    public GameObject objectToEnable;
     private void Start()
     {
         npcName = "???";
@@ -19,6 +21,9 @@ public class Occult : InteractableNPC
             return;
         }
         ResourceCounter counter = FindFirstObjectByType<ResourceCounter>();
+        PotionUIController potionUI = FindFirstObjectByType<PotionUIController>();
+        bool hasBothPotions = potionUI != null && potionUI.HasBothPotions();
+        bool hasSpellBook = counter != null && counter.HasSpellBook();
 
         switch (StoryManager.Instance.currentQuestState)
         {
@@ -46,6 +51,34 @@ public class Occult : InteractableNPC
                     dialogueManager.ShowDialogue(npcName, "Hurry on now, this isn't enough.");
                 }
                 break;
+                
+            case QuestState.PotionBrew:
+                if (hasBothPotions)
+                {
+                    dialogueManager.ShowDialogue(npcName, "Perfect, one last step. Find a special book, and we will all get what we want.");
+                    StoryManager.Instance.AdvanceQuest(QuestState.FindBook);
+                    objectToEnable.SetActive(true);
+                }
+                else
+                {
+                    dialogueManager.ShowDialogue(npcName, "We shall not carve the wood. It must be filled.");
+                }
+                break;
+
+            case QuestState.FindBook:
+                if (hasSpellBook)
+                {
+                    dialogueManager.ShowDialogue(npcName, "HAHA, FINALLY! Apologies for the excitement, but we cannot stall any longer! Proceed with the last steps as is written.");
+                    StoryManager.Instance.AdvanceQuest(QuestState.FinalSummoning);
+                    SceneManager.LoadScene("SpellTracingScene");
+                }
+                else
+                {
+                    dialogueManager.ShowDialogue(npcName, "soon...");
+                }
+                break;
+
+            
 
             default:
                 dialogueManager.ShowDialogue(npcName, "the three of the 20th one ... he waits");

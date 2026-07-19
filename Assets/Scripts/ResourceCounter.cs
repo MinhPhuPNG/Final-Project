@@ -9,6 +9,7 @@ public class ResourceCounter : MonoBehaviour
     private int purpleFlowers;
     private int treeShrooms;
     private bool hasTutorialPotion = false;
+    private bool hasSpellBook = false;
     void Start()
     {
         UpdateUI();
@@ -18,6 +19,8 @@ public class ResourceCounter : MonoBehaviour
     public int GetPurpleFlowerCount() => purpleFlowers;
     public int GetTreeShroomCount() => treeShrooms;
     public bool HasTutorialPotion() => hasTutorialPotion;
+    public bool HasSpellBook() => hasSpellBook;
+
     public void ConsumeResources(int mushroomAmt, int flowerAmt, int treeShroomAmt)
     {
         mushrooms -= mushroomAmt;
@@ -50,6 +53,10 @@ public class ResourceCounter : MonoBehaviour
         else if (resourceName == "TutorialPotion")
         {
             hasTutorialPotion = true;
+        }
+        else if (resourceName == "SpellBook")
+        {
+            hasSpellBook = true;
         }
 
         UpdateUI();

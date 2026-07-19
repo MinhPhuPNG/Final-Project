@@ -51,22 +51,19 @@ public class ObjectiveUI : MonoBehaviour
                 objectiveText.text = "Objective: Ask for your first task.";
                 break;
             case QuestState.GardenHarvest:
-                objectiveText.text = "Objective: Harvest ingredients, avoid the moonlight. Return to her when complete";
+                objectiveText.text = "Objective: Harvest ingredients, then return to her. Avoid the moon's gaze.";
                 break;
             case QuestState.PotionBrew:
-                objectiveText.text = "Objective: Brew in remaining cauldrons.";
+                objectiveText.text = "Objective: Brew in remaining cauldrons, then return to her.";
                 break;
-            case QuestState.PotionsDone:
-                objectiveText.text = "Objective: Return to her for the last task.";
-                break;
-            case QuestState.ConsultOccult:
+            case QuestState.FindBook:
                 objectiveText.text = "Objective: Find the spellbook.";
                 break;
             case QuestState.FinalSummoning:
-                objectiveText.text = "Objective: Complete the ritual";
+                objectiveText.text = "Complete the ritual";
                 break;
             case QuestState.GameComplete:
-                objectiveText.text = "Objective: Congratulations! You finished initiation.";
+                objectiveText.text = "Congratulations! You finished initiation. Welcome to the Club.";
                 break;
             default:
                 objectiveText.text = "Objective: Explore and look for clues.";
