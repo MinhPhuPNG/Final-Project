@@ -15,8 +15,7 @@ Character can move, start and cycle through a dialogue with the NPC, and 3 resou
 Checkpoint 2:
 Functionality - Added doors + completed skeleton of map needed for daytime phase, placeholder npc's with needed flow/dialogue for story progression, cauldron interactions with potion recipes, and enemy avoidance mechanic.
 
-Future plans are to add actual models for different npc's and a 2D art/sprite for each, and overall gameplay flow/ui cleanup for places that are left clunky. If there's time I will implement an actual ending rather then simply cutting to an ending screen.
-
+Future plans are to add actual models for different npc's and a 2D art/sprite, overall gameplay flow/ui cleanup for places that are left clunky. If there's time I will implement an actual ending rather then simply cutting to an ending screen.
 
 Imported Assets:
 https://assetstore.unity.com/packages/essentials/starter-assets-firstperson-urp-196525
@@ -28,7 +27,7 @@ https://assetstore.unity.com/packages/p/medieval-tavern-pack-112546
 
 
 Non-Imported Assets:
-NPC models, Title Screen, 
+NPC models, Title Screen, 2D Art.
 
 
 ## Copyright Notice
