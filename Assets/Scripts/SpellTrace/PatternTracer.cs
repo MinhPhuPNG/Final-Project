@@ -11,14 +11,27 @@ public class PatternTracer : MonoBehaviour
     [System.Serializable]
     public class PuzzleData
     {
+        public string puzzleName = "Spell Pattern";
+
+        [Tooltip("The parent GameObject containing all graphic overlays and checkpoint dots for this puzzle.")]
         public GameObject puzzleFolder; 
+
+        [TextArea(2, 3)]
         public string instructionMessage = "Trace the spell symbol!";
+        
+        [Tooltip("If true, lifting the cursor won't trigger a mistake if a full line/segment was finished!")]
+        public bool allowLiftingCursor = true;
+
         [HideInInspector] public List<Transform> checkpoints = new List<Transform>();
     }
 
-    [Header("Puzzle Pool & Settings")]
+    [Header("Puzzle Pool & Sequence Settings")]
     public List<PuzzleData> puzzles = new List<PuzzleData>();
+
+    [Tooltip("How many puzzles from the list to play during this run.")]
     public int puzzlesToComplete = 3;
+
+    [Tooltip("Global game timer in seconds for the whole run.")]
     public float timeLimitSeconds = 30f;
 
     [Header("TextMeshPro UI References")]
@@ -37,13 +50,23 @@ public class PatternTracer : MonoBehaviour
 
     [Header("Line & UI Settings")]
     public float minDistanceBetweenPoints = 0.05f;
-    [Tooltip("Radius in SCREEN PIXELS. Set between 40 and 80 for UI RectTransforms!")]
-    public float checkpointRadius = 50f;      
+    
+    [Tooltip("Radius in SCREEN PIXELS for hitting checkpoints.")]
+    public float checkpointRadius = 20f; 
+
+    [Tooltip("If true, straying too far away from the line between checkpoints resets the stroke.")]
+    public bool enforcePathLine = true;
+    public float maxStrayDistance = 35f;
+
     public string returnSceneName = "NightScene";
 
-    private LineRenderer lineRenderer;
+    // Dynamic Line Generation
+    private LineRenderer activeLineRenderer;
+    private List<LineRenderer> activeStrokes = new List<LineRenderer>();
     private List<Vector3> drawnPoints = new List<Vector3>();
-    
+    private LineRenderer lineTemplate;
+
+    // Game Session Tracking
     private List<PuzzleData> shuffledPuzzles = new List<PuzzleData>();
     private int currentPuzzleIndex = 0;
     private int currentCheckpointIndex = 0;
@@ -56,24 +79,56 @@ public class PatternTracer : MonoBehaviour
 
     void Start()
     {
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.positionCount = 0;
+        lineTemplate = GetComponent<LineRenderer>();
+        if (lineTemplate != null) lineTemplate.enabled = false;
 
+        // Index all checkpoints once at startup
         foreach (var puzzle in puzzles)
         {
             if (puzzle.puzzleFolder != null)
             {
                 puzzle.puzzleFolder.SetActive(false);
                 puzzle.checkpoints.Clear();
-                foreach (Transform child in puzzle.puzzleFolder.transform)
+                
+                CollectCheckpointsRecursively(puzzle.puzzleFolder.transform, puzzle.checkpoints);
+
+                string cpNames = "";
+                for (int i = 0; i < puzzle.checkpoints.Count; i++)
                 {
-                    puzzle.checkpoints.Add(child);
+                    cpNames += $"[{i + 1}] {puzzle.checkpoints[i].name} ";
                 }
-                Debug.Log($"[TRACER LOG]: Puzzle '{puzzle.puzzleFolder.name}' configured with {puzzle.checkpoints.Count} checkpoint(s).");
+
+                Debug.Log($"<color=cyan>[TRACER LOG]:</color> Found <b>{puzzle.checkpoints.Count}</b> checkpoints in '{puzzle.puzzleFolder.name}': {cpNames}");
             }
         }
 
         StartGameSession();
+    }
+
+    private void CollectCheckpointsRecursively(Transform parent, List<Transform> checkpointList)
+    {
+        foreach (Transform child in parent)
+        {
+            string nameLower = child.name.ToLower();
+
+            if (nameLower.Contains("bg") || nameLower.Contains("background") || nameLower.Contains("pattern") || nameLower.Contains("symbol"))
+            {
+                if (child.childCount > 0)
+                {
+                    CollectCheckpointsRecursively(child, checkpointList);
+                }
+                continue;
+            }
+
+            if (nameLower.StartsWith("cp") || nameLower.Contains("checkpoint") || nameLower.Contains("dot") || nameLower.Contains("point"))
+            {
+                checkpointList.Add(child);
+            }
+            else if (child.childCount > 0)
+            {
+                CollectCheckpointsRecursively(child, checkpointList);
+            }
+        }
     }
 
     void StartGameSession()
@@ -82,13 +137,6 @@ public class PatternTracer : MonoBehaviour
         ResetHeartUI();
 
         shuffledPuzzles = new List<PuzzleData>(puzzles);
-        for (int i = 0; i < shuffledPuzzles.Count; i++)
-        {
-            PuzzleData temp = shuffledPuzzles[i];
-            int randomIndex = Random.Range(i, shuffledPuzzles.Count);
-            shuffledPuzzles[i] = shuffledPuzzles[randomIndex];
-            shuffledPuzzles[randomIndex] = temp;
-        }
 
         completedCount = 0;
         currentPuzzleIndex = 0;
@@ -102,6 +150,7 @@ public class PatternTracer : MonoBehaviour
     {
         if (!isGameActive) return;
 
+        // Global countdown timer
         timeRemaining -= Time.deltaTime;
         if (timeRemaining <= 0)
         {
@@ -122,40 +171,20 @@ public class PatternTracer : MonoBehaviour
         }
         else if (pointer.press.isPressed && isTracing)
         {
+            Vector2 screenPos = GetPointerScreenPosition();
+
+            if (enforcePathLine && IsStrayingFromLine(screenPos))
+            {
+                RegisterMistake("Strayed off the pattern path!");
+                return;
+            }
+
             ContinueTrace();
-            CheckProgress(GetPointerScreenPosition());
+            CheckProgress(screenPos);
         }
         else if (pointer.press.wasReleasedThisFrame && isTracing)
         {
-            Debug.Log("[TRACER LOG]: Mouse/Touch released mid-trace.");
             StopTrace();
-        }
-    }
-
-    private void LoadNextPuzzle()
-    {
-        foreach (var p in puzzles)
-        {
-            if (p.puzzleFolder != null) p.puzzleFolder.SetActive(false);
-        }
-
-        if (currentPuzzleIndex < shuffledPuzzles.Count && completedCount < puzzlesToComplete)
-        {
-            PuzzleData currentPuzzle = shuffledPuzzles[currentPuzzleIndex];
-            currentPuzzle.puzzleFolder.SetActive(true);
-
-            if (instructionText != null)
-                instructionText.text = currentPuzzle.instructionMessage;
-
-            lineRenderer.positionCount = 0;
-            drawnPoints.Clear();
-            currentCheckpointIndex = 0;
-
-            Debug.Log($"[TRACER LOG]: Loaded Puzzle '{currentPuzzle.puzzleFolder.name}'. Active Checkpoint count: {currentPuzzle.checkpoints.Count}");
-        }
-        else
-        {
-            OnAllPuzzlesCompleted();
         }
     }
 
@@ -165,29 +194,100 @@ public class PatternTracer : MonoBehaviour
         Vector2 screenPointerPos = GetPointerScreenPosition();
         Vector3 worldPointerPos = GetPointerWorldPosition();
 
-        if (activePuzzle.checkpoints.Count > 0)
+        if (activePuzzle.checkpoints.Count == 0) return;
+
+        Vector2 nextCPPos = activePuzzle.checkpoints[currentCheckpointIndex].position;
+        float distToTarget = Vector2.Distance(screenPointerPos, nextCPPos);
+
+        if (distToTarget <= checkpointRadius)
         {
-            Vector2 cpScreenPos = activePuzzle.checkpoints[0].position;
-            float dist = Vector2.Distance(screenPointerPos, cpScreenPos);
+            Debug.Log($"[TRACER LOG]: Starting stroke at Checkpoint #{currentCheckpointIndex + 1} ('{activePuzzle.checkpoints[currentCheckpointIndex].name}')");
+            
+            isTracing = true;
+            CreateNewStrokeLine();
+            AddPoint(worldPointerPos);
 
-            Debug.Log($"[TRACER LOG]: Start click detected at screen position {screenPointerPos}. CP_1 Screen Pos: {cpScreenPos} | Distance: {dist:F1}px (Max Allowed: {checkpointRadius}px)");
+            CheckProgress(screenPointerPos);
+        }
+        else
+        {
+            Debug.LogWarning($"[TRACER LOG]: Cannot start trace! Click was {distToTarget:F1}px away from Checkpoint #{currentCheckpointIndex + 1} (Must be within {checkpointRadius}px).");
+        }
+    }
 
-            if (dist <= checkpointRadius)
+    private void CreateNewStrokeLine()
+    {
+        GameObject newStrokeObj = new GameObject($"Stroke_{activeStrokes.Count + 1}");
+        newStrokeObj.transform.SetParent(transform, false);
+
+        activeLineRenderer = newStrokeObj.AddComponent<LineRenderer>();
+        if (lineTemplate != null)
+        {
+            activeLineRenderer.sharedMaterial = lineTemplate.sharedMaterial;
+            activeLineRenderer.startWidth = lineTemplate.startWidth;
+            activeLineRenderer.endWidth = lineTemplate.endWidth;
+            activeLineRenderer.startColor = lineTemplate.startColor;
+            activeLineRenderer.endColor = lineTemplate.endColor;
+            activeLineRenderer.useWorldSpace = lineTemplate.useWorldSpace;
+            activeLineRenderer.sortingOrder = lineTemplate.sortingOrder;
+        }
+
+        activeLineRenderer.positionCount = 0;
+        drawnPoints.Clear();
+        activeStrokes.Add(activeLineRenderer);
+    }
+
+    private void CheckProgress(Vector2 currentScreenPoint)
+    {
+        PuzzleData activePuzzle = shuffledPuzzles[currentPuzzleIndex];
+        
+        if (currentCheckpointIndex >= activePuzzle.checkpoints.Count) return;
+
+        Transform nextTargetCP = activePuzzle.checkpoints[currentCheckpointIndex];
+        Vector2 targetScreenPos = nextTargetCP.position;
+        float distance = Vector2.Distance(currentScreenPoint, targetScreenPos);
+
+        if (distance <= checkpointRadius)
+        {
+            Debug.Log($"[TRACER LOG]: Checkpoint #{currentCheckpointIndex + 1} ('{nextTargetCP.name}') HIT!");
+
+            PlayCheckpointSFX(currentCheckpointIndex == 0);
+
+            currentCheckpointIndex++;
+
+            if (currentCheckpointIndex >= activePuzzle.checkpoints.Count)
             {
-                Debug.Log("[TRACER LOG]: CP_1 Hit! Tracing session started.");
-                isTracing = true;
-                drawnPoints.Clear();
-                lineRenderer.positionCount = 0;
-                currentCheckpointIndex = 0;
-
-                AddPoint(worldPointerPos);
-                CheckProgress(screenPointerPos);
-            }
-            else
-            {
-                Debug.LogWarning($"[TRACER LOG]: Click was too far from CP_1 ({dist:F1}px > {checkpointRadius}px radius).");
+                OnPuzzleSuccess();
             }
         }
+    }
+
+    private bool IsStrayingFromLine(Vector2 pointerScreenPos)
+    {
+        PuzzleData activePuzzle = shuffledPuzzles[currentPuzzleIndex];
+
+        if (currentCheckpointIndex == 0 || currentCheckpointIndex >= activePuzzle.checkpoints.Count)
+            return false;
+
+        Vector2 lastHitCP = activePuzzle.checkpoints[currentCheckpointIndex - 1].position;
+        Vector2 nextTargetCP = activePuzzle.checkpoints[currentCheckpointIndex].position;
+
+        float distToSegment = DistanceToSegment(pointerScreenPos, lastHitCP, nextTargetCP);
+
+        return distToSegment > maxStrayDistance;
+    }
+
+    private float DistanceToSegment(Vector2 point, Vector2 a, Vector2 b)
+    {
+        Vector2 ap = point - a;
+        Vector2 ab = b - a;
+        float sqrLen = ab.sqrMagnitude;
+
+        if (sqrLen == 0) return Vector2.Distance(point, a);
+
+        float t = Mathf.Clamp01(Vector2.Dot(ap, ab) / sqrLen);
+        Vector2 projection = a + t * ab;
+        return Vector2.Distance(point, projection);
     }
 
     private void ContinueTrace()
@@ -205,67 +305,37 @@ public class PatternTracer : MonoBehaviour
         isTracing = false;
         PuzzleData activePuzzle = shuffledPuzzles[currentPuzzleIndex];
 
-        if (currentCheckpointIndex < activePuzzle.checkpoints.Count)
+        if (!activePuzzle.allowLiftingCursor && currentCheckpointIndex < activePuzzle.checkpoints.Count)
         {
-            RegisterMistake($"Tracing stopped prematurely. Reached checkpoint {currentCheckpointIndex}/{activePuzzle.checkpoints.Count}");
+            RegisterMistake($"Released mouse early before completing the trace!");
         }
     }
 
     private void AddPoint(Vector3 worldPosition)
     {
+        if (activeLineRenderer == null) return;
+
         drawnPoints.Add(worldPosition);
-        lineRenderer.positionCount = drawnPoints.Count;
-        lineRenderer.SetPosition(drawnPoints.Count - 1, worldPosition);
-    }
-
-    private void CheckProgress(Vector2 currentScreenPoint)
-    {
-        PuzzleData activePuzzle = shuffledPuzzles[currentPuzzleIndex];
-        if (currentCheckpointIndex >= activePuzzle.checkpoints.Count) return;
-
-        Transform currentCP = activePuzzle.checkpoints[currentCheckpointIndex];
-        Vector2 cpScreenPos = currentCP.position;
-        float distance = Vector2.Distance(currentScreenPoint, cpScreenPos);
-
-        if (distance <= checkpointRadius)
-        {
-            Debug.Log($"[TRACER LOG]: Checkpoint #{currentCheckpointIndex + 1} ('{currentCP.name}') HIT! Distance: {distance:F1}px");
-
-            PlayCheckpointSFX(currentCheckpointIndex == 0);
-
-            currentCheckpointIndex++;
-
-            if (currentCheckpointIndex >= activePuzzle.checkpoints.Count)
-            {
-                OnPuzzleSuccess();
-            }
-        }
+        activeLineRenderer.positionCount = drawnPoints.Count;
+        activeLineRenderer.SetPosition(drawnPoints.Count - 1, worldPosition);
     }
 
     private void PlayCheckpointSFX(bool isFirst)
     {
-        if (sfxAudioSource == null)
-        {
-            Debug.LogWarning("[TRACER LOG]: sfxAudioSource is missing on the script component!");
-            return;
-        }
+        if (sfxAudioSource == null) return;
 
         AudioClip clipToPlay = isFirst ? firstCheckpointSound : subsequentCheckpointSound;
-
         if (clipToPlay != null)
         {
             sfxAudioSource.PlayOneShot(clipToPlay);
-        }
-        else
-        {
-            Debug.LogWarning($"[TRACER LOG]: Missing audio clip for {(isFirst ? "First" : "Subsequent")} Checkpoint sound!");
         }
     }
 
     private void RegisterMistake(string reason)
     {
+        isTracing = false;
         currentStrikes++;
-        Debug.LogWarning($"[TRACER LOG]: Mistake registered! Reason: {reason}. Current Strikes: {currentStrikes}/{heartImages.Length}");
+        Debug.LogWarning($"[TRACER LOG]: Mistake! {reason}");
 
         if (sfxAudioSource != null && mistakeSound != null)
         {
@@ -281,14 +351,26 @@ public class PatternTracer : MonoBehaviour
             }
         }
 
-        lineRenderer.positionCount = 0;
-        drawnPoints.Clear();
+        ClearAllStrokes();
         currentCheckpointIndex = 0;
 
         if (currentStrikes >= heartImages.Length)
         {
             OnGameFailed("Too Many Mistakes!");
         }
+    }
+
+    private void ClearAllStrokes()
+    {
+        foreach (var stroke in activeStrokes)
+        {
+            if (stroke != null)
+            {
+                Destroy(stroke.gameObject);
+            }
+        }
+        activeStrokes.Clear();
+        drawnPoints.Clear();
     }
 
     private void ResetHeartUI()
@@ -302,10 +384,44 @@ public class PatternTracer : MonoBehaviour
         }
     }
 
+    private void LoadNextPuzzle()
+    {
+        // Hide every puzzle folder in the list
+        foreach (var p in puzzles)
+        {
+            if (p.puzzleFolder != null)
+                p.puzzleFolder.SetActive(false);
+        }
+
+        ClearAllStrokes();
+
+        if (currentPuzzleIndex < shuffledPuzzles.Count && completedCount < puzzlesToComplete)
+        {
+            PuzzleData currentPuzzle = shuffledPuzzles[currentPuzzleIndex];
+
+            // Simply activate the current puzzle object
+            if (currentPuzzle.puzzleFolder != null)
+            {
+                currentPuzzle.puzzleFolder.SetActive(true);
+            }
+
+            if (instructionText != null)
+            {
+                instructionText.text = currentPuzzle.instructionMessage;
+            }
+
+            currentCheckpointIndex = 0;
+        }
+        else
+        {
+            OnAllPuzzlesCompleted();
+        }
+    }
+
     private void OnPuzzleSuccess()
     {
         isTracing = false;
-        Debug.Log($"[TRACER LOG]: Puzzle Solved Successfully! ({completedCount + 1}/{puzzlesToComplete})");
+        Debug.Log($"[TRACER LOG]: Puzzle Solved! ({completedCount + 1}/{puzzlesToComplete})");
 
         if (sfxAudioSource != null && successSound != null)
         {
@@ -328,14 +444,12 @@ public class PatternTracer : MonoBehaviour
     private void OnAllPuzzlesCompleted()
     {
         isGameActive = false;
-        Debug.Log($"[TRACER LOG]: All puzzles complete! Loading return scene '{returnSceneName}'");
         SceneManager.LoadScene(returnSceneName);
     }
 
     private void OnGameFailed(string reason)
     {
         isGameActive = false;
-        Debug.LogError($"[TRACER LOG]: Game Session Failed ({reason}). Restarting scene...");
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

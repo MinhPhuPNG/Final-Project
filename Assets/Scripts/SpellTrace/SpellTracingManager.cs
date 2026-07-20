@@ -5,6 +5,6 @@ public class SpellTracingManager : MonoBehaviour
 {
     public void OnTracingComplete()
     {
-        SceneManager.LoadScene("NightScene");
+        SceneManager.LoadScene("GameComplete");
     }
 }
