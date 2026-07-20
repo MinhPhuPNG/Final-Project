@@ -1,7 +1,10 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class ResourceCounter : MonoBehaviour
 {
+    public static ResourceCounter Instance { get; private set; }
+
     public TextMeshProUGUI mushroomText;
     public TextMeshProUGUI purpleFlowerText;
     public TextMeshProUGUI treeShroomText;
@@ -10,8 +13,40 @@ public class ResourceCounter : MonoBehaviour
     private int treeShrooms;
     private bool hasTutorialPotion = false;
     private bool hasSpellBook = false;
-    void Start()
+
+    private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void Start()
+    {
+        RebindUI();
+        UpdateUI();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        RebindUI();
         UpdateUI();
     }
 
@@ -20,6 +55,39 @@ public class ResourceCounter : MonoBehaviour
     public int GetTreeShroomCount() => treeShrooms;
     public bool HasTutorialPotion() => hasTutorialPotion;
     public bool HasSpellBook() => hasSpellBook;
+
+    private void RebindUI()
+    {
+        if (mushroomText != null && purpleFlowerText != null && treeShroomText != null)
+        {
+            return;
+        }
+
+        TextMeshProUGUI[] textFields = FindObjectsOfType<TextMeshProUGUI>(true);
+        foreach (TextMeshProUGUI textField in textFields)
+        {
+            if (textField == null)
+            {
+                continue;
+            }
+
+            string lowerName = textField.gameObject.name.ToLowerInvariant();
+            string lowerText = textField.text.ToLowerInvariant();
+
+            if (mushroomText == null && (lowerName.Contains("mushroom") || lowerText.Contains("mushrooms")))
+            {
+                mushroomText = textField;
+            }
+            else if (purpleFlowerText == null && (lowerName.Contains("flower") || lowerText.Contains("flowers")))
+            {
+                purpleFlowerText = textField;
+            }
+            else if (treeShroomText == null && (lowerName.Contains("shroom") || lowerText.Contains("shrooms")))
+            {
+                treeShroomText = textField;
+            }
+        }
+    }
 
     public void ConsumeResources(int mushroomAmt, int flowerAmt, int treeShroomAmt)
     {
