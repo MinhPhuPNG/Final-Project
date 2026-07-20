@@ -14,7 +14,7 @@ Functionality - Resource collection script for future implementations of resourc
 Character can move, start and cycle through a dialogue with the NPC, and 3 resources can be kept track of currently. Future plans are to implement a recipe based potion game with new resource assets, replacing current resources.
 
 Checkpoint 2:
-Functionality - Added doors + completed skeleton of map needed for daytime phase, placeholder npc's with needed flow/dialogue for story progression, cauldron interactions with potion recipes, and enemy avoidance mechanic.
+Functionality - Added completed skeleton of maps needed for daytime, night, fully functional made from scratch 2D puzzle, and interactions with doors, cauldrons, and other objects. Placeholder npc models currently occupy all NPC's for needed dialogue/story progression along with a basic hazard.
 
 Future plans are to add actual models for different npc's and a 2D art/sprite, overall gameplay flow/ui cleanup for places that are left clunky. If there's time I will implement an actual ending rather then simply cutting to an ending screen.
 
