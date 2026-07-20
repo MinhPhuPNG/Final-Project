@@ -34,6 +34,7 @@ public class Occult : InteractableNPC
                     "Hello. I know what you want. I need you to help me first...",
                     () => SceneManager.LoadScene("NightScene")
                 );
+                break;
 
             case QuestState.NightShift:
                 dialogueManager.ShowDialogue(npcName, "It's time, harvest some ingredients... The exact amount we need should be written in a book I left in the hallway.");
