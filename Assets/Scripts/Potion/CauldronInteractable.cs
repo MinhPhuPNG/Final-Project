@@ -27,6 +27,8 @@ public class CauldronInteractable : InteractableResource
 
     public override void Interact()
     {
+        DialogueManager dialogueManager = DialogueManager.EnsureInstance();
+
         if (hasBrewed && lockAfterSingleUse)
         {
             ShowDialoguePrompt("The cauldron has cooled, perhaps unusable after you have used it.");
