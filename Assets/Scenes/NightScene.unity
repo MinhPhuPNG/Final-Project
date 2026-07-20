@@ -1488,8 +1488,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d043bd9e2267d40d68101c1849824561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Spellbook
-  book: {fileID: 144717844}
-  lanternLight: {fileID: 31797582}
 --- !u!65 &144717853
 BoxCollider:
   m_ObjectHideFlags: 0

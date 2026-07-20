@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using TMPro;
@@ -16,6 +17,7 @@ public class DialogueManager : MonoBehaviour
     private string[] dialogueLines;
     private int lineIndex;
     private Coroutine typeCoroutine;
+    private Action onDialogueComplete; // Stores the callback action!
 
     public bool IsDialogueActive { get; private set; }
 
@@ -41,7 +43,7 @@ public class DialogueManager : MonoBehaviour
         Instance = FindFirstObjectByType<DialogueManager>();
         if (Instance != null)
         {
-            return Instance; // Fixed: Safely return the scene instance if found
+            return Instance;
         }
 
         GameObject managerObject = new GameObject("DialogueManager");
@@ -64,18 +66,31 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowDialogue(string speakerName, string dialogueText)
     {
-        ShowDialogue(speakerName, new[] { dialogueText });
+        ShowDialogue(speakerName, new[] { dialogueText }, null);
+    }
+
+    public void ShowDialogue(string speakerName, string dialogueText, Action onComplete)
+    {
+        ShowDialogue(speakerName, new[] { dialogueText }, onComplete);
     }
 
     public void ShowDialogue(string speakerName, string[] lines)
     {
+        ShowDialogue(speakerName, lines, null);
+    }
+
+    public void ShowDialogue(string speakerName, string[] lines, Action onComplete)
+    {
         if (dialoguePanel == null || speakerNameText == null || dialogueContentText == null || lines == null || lines.Length == 0)
         {
+            onComplete?.Invoke();
             return;
         }
 
         dialogueLines = lines;
         lineIndex = 0;
+        onDialogueComplete = onComplete;
+
         dialoguePanel.SetActive(true);
         speakerNameText.text = speakerName;
         IsDialogueActive = true;
@@ -99,6 +114,10 @@ public class DialogueManager : MonoBehaviour
         dialogueLines = null;
         lineIndex = 0;
         IsDialogueActive = false;
+
+        Action callback = onDialogueComplete;
+        onDialogueComplete = null;
+        callback?.Invoke();
     }
 
     private void StartTypingCurrentLine()
@@ -134,7 +153,6 @@ public class DialogueManager : MonoBehaviour
 
         string currentLine = dialogueLines[lineIndex];
         
-        // If the text is still typing out, instantly complete it instead of moving forward
         if (dialogueContentText.text != currentLine)
         {
             if (typeCoroutine != null)
@@ -147,7 +165,6 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        // If the line was already complete, move to the next line or close out
         if (lineIndex < dialogueLines.Length - 1)
         {
             lineIndex++;

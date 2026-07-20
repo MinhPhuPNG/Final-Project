@@ -68,9 +68,12 @@ public class Occult : InteractableNPC
             case QuestState.FindBook:
                 if (hasSpellBook)
                 {
-                    dialogueManager.ShowDialogue(npcName, "HAHA, FINALLY! Apologies for the excitement, but we cannot stall any longer! Proceed with the last steps as is written.");
                     StoryManager.Instance.AdvanceQuest(QuestState.FinalSummoning);
-                    SceneManager.LoadScene("SpellTracingScene");
+                    dialogueManager.ShowDialogue(
+                        npcName, 
+                        "HAHA, FINALLY! Apologies for the excitement, but we cannot stall any longer! Proceed with the last steps as is written.",
+                        () => SceneManager.LoadScene("SpellTrace")
+                    );
                 }
                 else
                 {
