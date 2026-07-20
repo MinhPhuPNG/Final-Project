@@ -58,7 +58,7 @@ public class PatternTracer : MonoBehaviour
     public bool enforcePathLine = true;
     public float maxStrayDistance = 35f;
 
-    public string returnSceneName = "NightScene";
+    public string returnSceneName = "GameComplete";
 
     // Dynamic Line Generation
     private LineRenderer activeLineRenderer;
