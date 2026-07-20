@@ -28,13 +28,14 @@ public class Alchemist : InteractableNPC
                 StoryManager.Instance.AdvanceQuest(QuestState.AlchemyTutorial);
                 break;
 
-            case QuestState.AlchemyTutorialComplete:
+            case QuestState.AlchemyTutorial:
                 if (counter.HasTutorialPotion())
-                    {
-                        dialogueManager.ShowDialogue(npcName, "Oh wow, it turned out well. I could've sworn I heard a - DAMN IT. The cauldrons messed up again. Sorry but I don't think you can join at the rate our equipment's blowing up, my sister was trying to start a club though. She'll be outside, near the graveyard. You should go talk to her.");
-                        StoryManager.Instance.AdvanceQuest(QuestState.MeetOccult);
-                    }
-                else{
+                {
+                    dialogueManager.ShowDialogue(npcName, "Oh wow, it turned out well. I could've sworn I heard a - DAMN IT. The cauldrons messed up again. Sorry but I don't think you can join at the rate our equipment's blowing up, my sister was trying to start a club though. She'll be outside, near the graveyard. You should go talk to her.");
+                    StoryManager.Instance.AdvanceQuest(QuestState.MeetOccult);
+                }
+                else
+                {
                     dialogueManager.ShowDialogue(npcName, "Go ahead and try to make something with the cauldron next to me.");
                 }
                 break;

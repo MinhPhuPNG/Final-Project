@@ -28,9 +28,10 @@ public class PotionPickup : InteractableResource
             uiController.RevealPotionImage(potionID);
         }
 
-        if (potionID == 1 && StoryManager.Instance != null && StoryManager.Instance.currentQuestState == QuestState.AlchemyTutorial)
+        if (potionID == 1 && StoryManager.Instance != null &&
+            (StoryManager.Instance.currentQuestState == QuestState.AlchemyTutorial))
         {
-            StoryManager.Instance.AdvanceQuest(QuestState.AlchemyTutorialComplete);
+            StoryManager.Instance.AdvanceQuest(QuestState.MeetOccult);
         }
 
         gameObject.SetActive(false);

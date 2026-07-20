@@ -50,11 +50,6 @@ public class CauldronInteractable : InteractableResource
             hasBrewed = true;
 
             ShowDialoguePrompt("The brewing seems to work, make sure to pick up the bottle.");
-
-            if (activeQuestPhase == QuestState.AlchemyTutorial)
-            {
-                StoryManager.Instance.AdvanceQuest(QuestState.AlchemyDelivery); 
-            }
         }
         else
         {
