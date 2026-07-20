@@ -1875,7 +1875,6 @@ MonoBehaviour:
   checkpointRadius: 20
   enforcePathLine: 1
   maxStrayDistance: 45
-  returnSceneName: NightScene
 --- !u!1 &389693751
 GameObject:
   m_ObjectHideFlags: 0
@@ -9217,7 +9216,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2094852048
 Transform:
   m_ObjectHideFlags: 0

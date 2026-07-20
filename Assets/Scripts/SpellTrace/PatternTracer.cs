@@ -29,7 +29,7 @@ public class PatternTracer : MonoBehaviour
     public List<PuzzleData> puzzles = new List<PuzzleData>();
 
     [Tooltip("How many puzzles from the list to play during this run.")]
-    public int puzzlesToComplete = 3;
+    public int puzzlesToComplete = 8;
 
     [Tooltip("Global game timer in seconds for the whole run.")]
     public float timeLimitSeconds = 30f;
@@ -58,7 +58,6 @@ public class PatternTracer : MonoBehaviour
     public bool enforcePathLine = true;
     public float maxStrayDistance = 35f;
 
-    public string returnSceneName = "GameComplete";
 
     // Dynamic Line Generation
     private LineRenderer activeLineRenderer;
@@ -449,7 +448,7 @@ public class PatternTracer : MonoBehaviour
     private void OnAllPuzzlesCompleted()
     {
         isGameActive = false;
-        SceneManager.LoadScene(returnSceneName);
+        SceneManager.LoadScene("GameComplete");
     }
 
     private void OnGameFailed(string reason)
