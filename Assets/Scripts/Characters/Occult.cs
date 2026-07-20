@@ -28,10 +28,12 @@ public class Occult : InteractableNPC
         switch (StoryManager.Instance.currentQuestState)
         {
             case QuestState.MeetOccult:
-                dialogueManager.ShowDialogue(npcName, "Hello. I know what you want. I need you to help me first...");
                 StoryManager.Instance.AdvanceQuest(QuestState.NightShift);
-                FindFirstObjectByType<NightSceneTrigger>().LoadNightScene();
-                break;
+                dialogueManager.ShowDialogue(
+                    npcName, 
+                    "Hello. I know what you want. I need you to help me first...",
+                    () => SceneManager.LoadScene("NightScene")
+                );
 
             case QuestState.NightShift:
                 dialogueManager.ShowDialogue(npcName, "It's time, harvest some ingredients... The exact amount we need should be written in a book I left in the hallway.");
