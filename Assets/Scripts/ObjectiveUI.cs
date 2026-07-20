@@ -33,16 +33,16 @@ public class ObjectiveUI : MonoBehaviour
                 objectiveText.text = "Objective: Talk to the Counselor in her office.";
                 break;
             case QuestState.GoToGardeningClub:
-                objectiveText.text = "Objective: Exit the building and find the Gardening Club.";
+                objectiveText.text = "Objective: Exit the building to find the Garden.";
                 break;
             case QuestState.GardeningClubTutorial:
-                objectiveText.text = "Objective: Speak with the gardener and do as she asks.";
+                objectiveText.text = "Objective: Do as the Gardener asks.";
                 break;
             case QuestState.AlchemyDelivery:
-                objectiveText.text = "Objective: Bring the plants to the Alchemy classroom.";
+                objectiveText.text = "Objective: Bring the plants to the classroom.";
                 break;
             case QuestState.AlchemyTutorial:
-                objectiveText.text = "Objective: Talk to the Alchemist";
+                objectiveText.text = "Objective: Try to brew a Potion and give it to the Alchemist.";
                 break;
             case QuestState.MeetOccult:
                 objectiveText.text = "Objective: Enter the Graveyard to find your last chance.";

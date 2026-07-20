@@ -20,12 +20,6 @@ public class Alchemist : InteractableNPC
         }
         ResourceCounter counter = FindFirstObjectByType<ResourceCounter>();
 
-        if (counter.HasTutorialPotion() && 
-            (StoryManager.Instance.currentQuestState == QuestState.AlchemyDelivery || 
-             StoryManager.Instance.currentQuestState == QuestState.AlchemyTutorial))
-        {
-            StoryManager.Instance.AdvanceQuest(QuestState.AlchemyTutorialComplete);
-        }
         
         switch (StoryManager.Instance.currentQuestState)
         {
@@ -35,8 +29,17 @@ public class Alchemist : InteractableNPC
                 break;
 
             case QuestState.AlchemyTutorialComplete:
-                dialogueManager.ShowDialogue(npcName, "Oh wow, it turned out well. I could've sworn I heard a - DAMN IT. The cauldrons messed up again. Sorry but I don't think you can join at the rate our equipment's blowing up, my sister was trying to start a club though. She'll be outside, near the graveyard. You should go talk to her.");
-                StoryManager.Instance.AdvanceQuest(QuestState.MeetOccult);
+                if (counter.HasTutorialPotion())
+                    {
+                        StoryManager.Instance.AdvanceQuest(QuestState.AlchemyTutorialComplete);
+                        dialogueManager.ShowDialogue(npcName, "Oh wow, it turned out well. I could've sworn I heard a - DAMN IT. The cauldrons messed up again. Sorry but I don't think you can join at the rate our equipment's blowing up, my sister was trying to start a club though. She'll be outside, near the graveyard. You should go talk to her.");
+                        StoryManager.Instance.AdvanceQuest(QuestState.MeetOccult);
+                    }
+
+                else{
+                    dialogueManager.ShowDialogue(npcName, "Go ahead and try to make something with the cauldron next to me.");
+                    StoryManager.Instance.AdvanceQuest(QuestState.MeetOccult);
+                }
                 break;
 
             case QuestState.MeetOccult:

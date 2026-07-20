@@ -15473,7 +15473,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   musicSource: {fileID: 528212959}
   backgroundMusic: {fileID: 8300000, guid: 4cdcc62a7daea4719aa244382825dca7, type: 3}
-  musicVolume: 0.095
+  musicVolume: 0.066
 --- !u!1001 &1643870986
 PrefabInstance:
   m_ObjectHideFlags: 0

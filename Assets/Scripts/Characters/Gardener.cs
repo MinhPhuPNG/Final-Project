@@ -42,7 +42,7 @@ public class Gardener : InteractableNPC
                 break;
 
             default:
-                dialogueManager.ShowDialogue(npcName, "Hello :)");
+                dialogueManager.ShowDialogue(npcName, "I love plants :D");
                 break;
         }
     }
