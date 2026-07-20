@@ -6979,7 +6979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fbfc4a4e7fa14ea3a658ded4da5c1d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryManager
-  currentQuestState: 7
+  currentQuestState: 6
 --- !u!1 &855909787
 GameObject:
   m_ObjectHideFlags: 0
@@ -19085,7 +19085,7 @@ MonoBehaviour:
   usesRemaining: 3
   promptText: Press E to brew
   destroyWhenEmpty: 1
-  activeQuestPhase: 9
+  activeQuestPhase: 8
   lockAfterSingleUse: 1
   requiredMushrooms: 5
   requiredPurpleFlowers: 0
@@ -19114,7 +19114,7 @@ MonoBehaviour:
   usesRemaining: 3
   promptText: Press E to brew
   destroyWhenEmpty: 0
-  activeQuestPhase: 9
+  activeQuestPhase: 8
   lockAfterSingleUse: 1
   requiredMushrooms: 0
   requiredPurpleFlowers: 5
