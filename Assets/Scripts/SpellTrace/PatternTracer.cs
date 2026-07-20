@@ -104,6 +104,11 @@ public class PatternTracer : MonoBehaviour
 
         StartGameSession();
     }
+    void Awake()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
 
     private void CollectCheckpointsRecursively(Transform parent, List<Transform> checkpointList)
     {
