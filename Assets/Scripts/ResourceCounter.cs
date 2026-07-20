@@ -46,6 +46,7 @@ public class ResourceCounter : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        ResetResources();
         RebindUI();
         UpdateUI();
     }
@@ -55,6 +56,15 @@ public class ResourceCounter : MonoBehaviour
     public int GetTreeShroomCount() => treeShrooms;
     public bool HasTutorialPotion() => hasTutorialPotion;
     public bool HasSpellBook() => hasSpellBook;
+
+    private void ResetResources()
+    {
+        mushrooms = 0;
+        purpleFlowers = 0;
+        treeShrooms = 0;
+        hasTutorialPotion = false;
+        hasSpellBook = false;
+    }
 
     private void RebindUI()
     {
