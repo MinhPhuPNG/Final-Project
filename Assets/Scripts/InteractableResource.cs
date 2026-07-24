@@ -13,7 +13,7 @@ public class InteractableResource : MonoBehaviour
 
     void Start()
     {
-        resourceCounter = FindFirstObjectByType<ResourceCounter>();
+        resourceCounter = ResourceCounter.Instance ?? FindFirstObjectByType<ResourceCounter>();
     }
 
     public virtual void Interact()
@@ -22,10 +22,12 @@ public class InteractableResource : MonoBehaviour
         {
             return;
         }
+
         if (resourceCounter != null)
         {
             resourceCounter.AddResource(resourceName, amountPerHarvest);
         }
+
         usesRemaining--;
         if (usesRemaining <= 0 && destroyWhenEmpty)
         {

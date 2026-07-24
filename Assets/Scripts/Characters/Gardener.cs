@@ -23,8 +23,8 @@ public class Gardener : InteractableNPC
         switch (StoryManager.Instance.currentQuestState)
         {
             case QuestState.GoToGardeningClub:
-                dialogueManager.ShowDialogue(npcName, "Hey! You here to help with the garden? Oh, want to join! I'm sorry but we've been undergoing some changes in leadership, but I could introduce you to the Alchemy Club! I'll need you to grab one of each plant first though.");
-                StoryManager.Instance.AdvanceQuest(QuestState.GardeningClubTutorial);
+                dialogueManager.ShowDialogue(npcName, "Hey! You here to help with the garden? Oh, want to join! I'm sorry but we've been undergoing some changes in leadership, but I could introduce you to the Alchemy Club! I'll need you to grab one of each plant first though.",
+                    () => StoryManager.Instance.AdvanceQuest(QuestState.GardeningClubTutorial));
                 break;
 
             case QuestState.GardeningClubTutorial:

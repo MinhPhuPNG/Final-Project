@@ -22,8 +22,8 @@ public class Counselor : InteractableNPC
         switch (StoryManager.Instance.currentQuestState)
         {
             case QuestState.TalkToCounselor:
-                dialogueManager.ShowDialogue(npcName, "Listen carefully. You need to join a student club immediately. The gardening club is outside if you want to try.");
-                StoryManager.Instance.AdvanceQuest(QuestState.GoToGardeningClub);
+                dialogueManager.ShowDialogue(npcName, "Listen carefully. You need to join a student club immediately. The gardening club is outside if you want to try.",
+                    () => StoryManager.Instance.AdvanceQuest(QuestState.GoToGardeningClub));
                 break;
 
             case QuestState.GoToGardeningClub:

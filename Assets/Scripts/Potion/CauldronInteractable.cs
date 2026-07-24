@@ -20,14 +20,13 @@ public class CauldronInteractable : InteractableResource
 
     void Start()
     {
-        playerInventory = FindFirstObjectByType<ResourceCounter>();
+        playerInventory = ResourceCounter.Instance ?? FindFirstObjectByType<ResourceCounter>();
         promptText = "Press E to Brew";
         destroyWhenEmpty = false;
     }
 
     public override void Interact()
     {
-        
         if (hasBrewed && lockAfterSingleUse)
         {
             ShowDialoguePrompt("The cauldron has cooled, perhaps unusable after you have used it.");

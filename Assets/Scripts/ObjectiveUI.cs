@@ -9,6 +9,11 @@ public class ObjectiveUI : MonoBehaviour
     void Start()
     {
         objectiveText = GetComponent<TextMeshProUGUI>();
+        if (objectiveText == null)
+        {
+            return;
+        }
+
         if (StoryManager.Instance != null)
         {
             lastState = StoryManager.Instance.currentQuestState;
@@ -18,7 +23,12 @@ public class ObjectiveUI : MonoBehaviour
 
     void Update()
     {
-        if (StoryManager.Instance != null && StoryManager.Instance.currentQuestState != lastState)
+        if (objectiveText == null || StoryManager.Instance == null)
+        {
+            return;
+        }
+
+        if (StoryManager.Instance.currentQuestState != lastState)
         {
             lastState = StoryManager.Instance.currentQuestState;
             UpdateObjectiveText(lastState);
@@ -27,6 +37,11 @@ public class ObjectiveUI : MonoBehaviour
 
     private void UpdateObjectiveText(QuestState state)
     {
+        if (objectiveText == null)
+        {
+            return;
+        }
+
         switch (state)
         {
             case QuestState.TalkToCounselor:

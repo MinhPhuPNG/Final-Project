@@ -1,13 +1,15 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
+
 public class Occult : InteractableNPC
 {
     public GameObject objectToEnable;
+
     private void Start()
     {
         npcName = "???";
     }
+
     public override void Talk()
     {
         DialogueManager dialogueManager = DialogueManager.EnsureInstance();
@@ -20,7 +22,8 @@ public class Occult : InteractableNPC
         {
             return;
         }
-        ResourceCounter counter = FindFirstObjectByType<ResourceCounter>();
+
+        ResourceCounter counter = ResourceCounter.Instance ?? FindFirstObjectByType<ResourceCounter>();
         PotionUIController potionUI = FindFirstObjectByType<PotionUIController>();
         bool hasBothPotions = potionUI != null && potionUI.HasBothPotions();
         bool hasSpellBook = counter != null && counter.HasSpellBook();
@@ -28,39 +31,46 @@ public class Occult : InteractableNPC
         switch (StoryManager.Instance.currentQuestState)
         {
             case QuestState.MeetOccult:
-                StoryManager.Instance.AdvanceQuest(QuestState.NightShift);
                 dialogueManager.ShowDialogue(
-                    npcName, 
+                    npcName,
                     "Hello. I know what you want. I need you to help me first...",
-                    () => SceneManager.LoadScene("NightScene")
+                    () => {
+                        StoryManager.Instance.AdvanceQuest(QuestState.NightShift);
+                        SceneManager.LoadScene("NightScene");
+                    }
                 );
                 break;
 
             case QuestState.NightShift:
-                dialogueManager.ShowDialogue(npcName, "It's time, harvest some ingredients... The exact amount we need should be written in a book I left in the hallway.");
-                StoryManager.Instance.AdvanceQuest(QuestState.GardenHarvest);
+                dialogueManager.ShowDialogue(npcName, "It's time, harvest some ingredients... The exact amount we need should be written in a book I left in the hallway.",
+                    () => StoryManager.Instance.AdvanceQuest(QuestState.GardenHarvest));
                 break;
 
             case QuestState.GardenHarvest:
-                if (counter.GetMushroomCount() >= 5 && 
-                    counter.GetPurpleFlowerCount() >= 5 && 
+                if (counter != null && counter.GetMushroomCount() >= 5 &&
+                    counter.GetPurpleFlowerCount() >= 5 &&
                     counter.GetTreeShroomCount() >= 6)
                 {
-                    dialogueManager.ShowDialogue(npcName, "This should be enough, go ahead and use the remaining cauldrons to brew what we need.");
-                    StoryManager.Instance.AdvanceQuest(QuestState.PotionBrew);
+                    dialogueManager.ShowDialogue(npcName, "This should be enough, go ahead and use the remaining cauldrons to brew what we need.",
+                        () => StoryManager.Instance.AdvanceQuest(QuestState.PotionBrew));
                 }
                 else
                 {
                     dialogueManager.ShowDialogue(npcName, "Hurry on now, this isn't enough.");
                 }
                 break;
-                
+
             case QuestState.PotionBrew:
                 if (hasBothPotions)
                 {
-                    dialogueManager.ShowDialogue(npcName, "Perfect, one last step. Find a special book, and we will all get what we want.");
-                    StoryManager.Instance.AdvanceQuest(QuestState.FindBook);
-                    objectToEnable.SetActive(true);
+                    dialogueManager.ShowDialogue(npcName, "Perfect, one last step. Find a special book, and we will all get what we want.",
+                        () => {
+                            StoryManager.Instance.AdvanceQuest(QuestState.FindBook);
+                            if (objectToEnable != null)
+                            {
+                                objectToEnable.SetActive(true);
+                            }
+                        });
                 }
                 else
                 {
@@ -71,11 +81,13 @@ public class Occult : InteractableNPC
             case QuestState.FindBook:
                 if (hasSpellBook)
                 {
-                    StoryManager.Instance.AdvanceQuest(QuestState.FinalSummoning);
                     dialogueManager.ShowDialogue(
-                        npcName, 
+                        npcName,
                         "HAHA, FINALLY! Apologies for the excitement, but we cannot stall any longer! Proceed with the last steps as is written.",
-                        () => SceneManager.LoadScene("SpellTrace")
+                        () => {
+                            StoryManager.Instance.AdvanceQuest(QuestState.FinalSummoning);
+                            SceneManager.LoadScene("SpellTrace");
+                        }
                     );
                 }
                 else
@@ -83,8 +95,6 @@ public class Occult : InteractableNPC
                     dialogueManager.ShowDialogue(npcName, "soon...");
                 }
                 break;
-
-            
 
             default:
                 dialogueManager.ShowDialogue(npcName, "the three of the 20th one ... he waits");

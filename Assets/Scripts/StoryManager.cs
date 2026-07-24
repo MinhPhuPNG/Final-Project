@@ -28,15 +28,22 @@ public class StoryManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else if (Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
     }
 
     public void AdvanceQuest(QuestState nextState)
     {
+        if (currentQuestState == nextState)
+        {
+            return;
+        }
+
         currentQuestState = nextState;
         Debug.Log($"[STORY UPDATE]: Objective is now {currentQuestState}");
     }

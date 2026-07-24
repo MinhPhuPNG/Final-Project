@@ -7338,7 +7338,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 800, y: 70}
+  m_AnchoredPosition: {x: 775, y: 70}
   m_SizeDelta: {x: 1450, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1063276661
@@ -12254,6 +12254,7 @@ GameObject:
   - component: {fileID: 1857253598}
   - component: {fileID: 1857253600}
   - component: {fileID: 1857253599}
+  - component: {fileID: 1857253601}
   m_Layer: 5
   m_Name: ResourcePanel
   m_TagString: Untagged
@@ -12321,6 +12322,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1857253597}
   m_CullTransparentMesh: 1
+--- !u!114 &1857253601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857253597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7efa33a89c587437aa1bdbc64134cc0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResourceUIBinder
+  mushroomText: {fileID: 1331876037}
+  purpleFlowerText: {fileID: 1079709925}
+  treeShroomText: {fileID: 861722843}
 --- !u!1001 &1859760071
 PrefabInstance:
   m_ObjectHideFlags: 0

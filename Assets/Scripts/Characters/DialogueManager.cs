@@ -17,37 +17,30 @@ public class DialogueManager : MonoBehaviour
     private string[] dialogueLines;
     private int lineIndex;
     private Coroutine typeCoroutine;
-    private Action onDialogueComplete; // Stores the callback action!
+    private Action onDialogueComplete;
 
     public bool IsDialogueActive { get; private set; }
 
     private void Awake()
     {
-        if (Instance == null)
+        Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
         {
-            Instance = this;
-        }
-        else if (Instance != this)
-        {
-            Destroy(gameObject);
+            Instance = null;
         }
     }
 
     public static DialogueManager EnsureInstance()
     {
-        if (Instance != null)
+        if (Instance == null)
         {
-            return Instance;
+            Instance = FindFirstObjectByType<DialogueManager>();
         }
 
-        Instance = FindFirstObjectByType<DialogueManager>();
-        if (Instance != null)
-        {
-            return Instance;
-        }
-
-        GameObject managerObject = new GameObject("DialogueManager");
-        Instance = managerObject.AddComponent<DialogueManager>();
         return Instance;
     }
 
@@ -110,7 +103,11 @@ public class DialogueManager : MonoBehaviour
             dialoguePanel.SetActive(false);
         }
 
-        dialogueContentText.text = string.Empty;
+        if (dialogueContentText != null)
+        {
+            dialogueContentText.text = string.Empty;
+        }
+
         dialogueLines = null;
         lineIndex = 0;
         IsDialogueActive = false;
@@ -127,12 +124,22 @@ public class DialogueManager : MonoBehaviour
             StopCoroutine(typeCoroutine);
         }
 
-        dialogueContentText.text = string.Empty;
+        if (dialogueContentText != null)
+        {
+            dialogueContentText.text = string.Empty;
+        }
+
         typeCoroutine = StartCoroutine(TypeLine());
     }
 
     private IEnumerator TypeLine()
     {
+        if (dialogueLines == null || dialogueLines.Length == 0 || dialogueContentText == null)
+        {
+            typeCoroutine = null;
+            yield break;
+        }
+
         string currentLine = dialogueLines[lineIndex];
 
         foreach (char c in currentLine.ToCharArray())
@@ -151,8 +158,14 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        if (dialogueContentText == null)
+        {
+            HideDialogue();
+            return;
+        }
+
         string currentLine = dialogueLines[lineIndex];
-        
+
         if (dialogueContentText.text != currentLine)
         {
             if (typeCoroutine != null)
