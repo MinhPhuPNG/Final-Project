@@ -23,25 +23,50 @@ public class DialogueManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-    }
-
-    private void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
-    }
-
-    public static DialogueManager EnsureInstance()
-    {
         if (Instance == null)
         {
-            Instance = FindFirstObjectByType<DialogueManager>();
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+    /// <summary>
+    /// Helper method to safely retrieve or find the DialogueManager instance in the scene.
+    /// </summary>
+    public static DialogueManager EnsureInstance()
+    {
+        if (Instance != null)
+        {
+            return Instance;
         }
 
+        Instance = FindFirstObjectByType<DialogueManager>();
+        if (Instance != null)
+        {
+            return Instance;
+        }
+
+        GameObject managerObject = new GameObject("DialogueManager");
+        Instance = managerObject.AddComponent<DialogueManager>();
         return Instance;
+    }
+
+    // Called by DialogueUIBinder in each scene to set local UI references
+    public void SetUIReferences(GameObject panel, TextMeshProUGUI nameText, TextMeshProUGUI contentText)
+    {
+        dialoguePanel = panel;
+        speakerNameText = nameText;
+        dialogueContentText = contentText;
+
+        if (dialoguePanel != null)
+        {
+            dialoguePanel.SetActive(false);
+        }
     }
 
     private void Update()
