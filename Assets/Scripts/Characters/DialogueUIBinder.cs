@@ -8,11 +8,8 @@ public class DialogueUIBinder : MonoBehaviour
     public TextMeshProUGUI speakerNameText;
     public TextMeshProUGUI dialogueContentText;
 
-    private void Start()
+    private void Awake()
     {
-        if (DialogueManager.Instance != null)
-        {
-            DialogueManager.Instance.SetUIReferences(dialoguePanel, speakerNameText, dialogueContentText);
-        }
+        DialogueManager.EnsureInstance().RegisterSceneUI(dialoguePanel, speakerNameText, dialogueContentText);
     }
 }

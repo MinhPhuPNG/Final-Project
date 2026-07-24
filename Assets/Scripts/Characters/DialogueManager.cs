@@ -35,9 +35,6 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Helper method to safely retrieve or find the DialogueManager instance in the scene.
-    /// </summary>
     public static DialogueManager EnsureInstance()
     {
         if (Instance != null)
@@ -56,13 +53,14 @@ public class DialogueManager : MonoBehaviour
         return Instance;
     }
 
-    // Called by DialogueUIBinder in each scene to set local UI references
-    public void SetUIReferences(GameObject panel, TextMeshProUGUI nameText, TextMeshProUGUI contentText)
+    public void RegisterSceneUI(GameObject panel, TextMeshProUGUI nameText, TextMeshProUGUI contentText)
     {
         dialoguePanel = panel;
         speakerNameText = nameText;
         dialogueContentText = contentText;
 
+        // Ensure state is clean on new scene load
+        IsDialogueActive = false;
         if (dialoguePanel != null)
         {
             dialoguePanel.SetActive(false);
@@ -99,12 +97,6 @@ public class DialogueManager : MonoBehaviour
 
     public void ShowDialogue(string speakerName, string[] lines, Action onComplete)
     {
-        if (dialoguePanel == null || speakerNameText == null || dialogueContentText == null || lines == null || lines.Length == 0)
-        {
-            onComplete?.Invoke();
-            return;
-        }
-
         dialogueLines = lines;
         lineIndex = 0;
         onDialogueComplete = onComplete;
@@ -159,12 +151,6 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator TypeLine()
     {
-        if (dialogueLines == null || dialogueLines.Length == 0 || dialogueContentText == null)
-        {
-            typeCoroutine = null;
-            yield break;
-        }
-
         string currentLine = dialogueLines[lineIndex];
 
         foreach (char c in currentLine.ToCharArray())
@@ -178,19 +164,9 @@ public class DialogueManager : MonoBehaviour
 
     private void ContinueDialogue()
     {
-        if (dialogueLines == null || dialogueLines.Length == 0)
-        {
-            return;
-        }
-
-        if (dialogueContentText == null)
-        {
-            HideDialogue();
-            return;
-        }
-
         string currentLine = dialogueLines[lineIndex];
 
+        // If line is still typing, skip to the end of the current line
         if (dialogueContentText.text != currentLine)
         {
             if (typeCoroutine != null)
@@ -203,6 +179,7 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
+        // Move to next line or close dialogue
         if (lineIndex < dialogueLines.Length - 1)
         {
             lineIndex++;
