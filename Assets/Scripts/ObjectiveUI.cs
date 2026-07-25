@@ -57,7 +57,7 @@ public class ObjectiveUI : MonoBehaviour
                 objectiveText.text = "Objective: Bring the plants to the classroom.";
                 break;
             case QuestState.AlchemyTutorial:
-                objectiveText.text = "Objective: Try to brew a Potion then talk to the Alchemist.";
+                objectiveText.text = "Objective: Try to brew a Potion.";
                 break;
             case QuestState.MeetOccult:
                 objectiveText.text = "Objective: Enter the Graveyard to find your last chance.";
@@ -72,7 +72,7 @@ public class ObjectiveUI : MonoBehaviour
                 objectiveText.text = "Objective: Brew in remaining cauldrons, then return to her.";
                 break;
             case QuestState.FindBook:
-                objectiveText.text = "Objective: Find the spellbook.";
+                objectiveText.text = "Objective: Find and return the spellbook.";
                 break;
             case QuestState.FinalSummoning:
                 objectiveText.text = "Complete the ritual";

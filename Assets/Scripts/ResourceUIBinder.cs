@@ -10,9 +10,6 @@ public class ResourceUIBinder : MonoBehaviour
 
     private void Start()
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-
         if (ResourceCounter.Instance != null)
         {
             ResourceCounter.Instance.SetUIReferences(mushroomText, purpleFlowerText, treeShroomText);
