@@ -34,4 +34,4 @@ NPC models, Title Screen, 2D Art.
 
 
 ## Copyright Notice
-This project is submitted as part of a course curriculum. All rights are reserved. You may view and fork this repository for educational purposes, but you may not copy, redistribute, or use this code or assets for commercial or personal projects without permission.
+This project is submitted as part of a course curriculum. All rights are reserved. You may view and fork this repository for educational purposes, but you may not copy, redistribute, or use this code or assets for commercial or public projects without permission.
