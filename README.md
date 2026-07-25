@@ -28,6 +28,12 @@ https://assetstore.unity.com/packages/3d/environments/stylized-hand-painted-dung
 https://assetstore.unity.com/packages/3d/environments/low-poly-environment-nature-free-lowpoly-medieval-fantasy-series-187052
 https://assetstore.unity.com/packages/3d/environments/dungeons/lite-dungeon-pack-low-poly-3d-art-by-gridness-242692
 https://assetstore.unity.com/packages/p/medieval-tavern-pack-112546
+Music/Audio Used:
+https://cdn.pixabay.com/download/audio/2025/12/18/audio_fbc2648cd2.mp3?filename=humordome-magic-button-click-453255.mp3
+https://cdn.pixabay.com/download/audio/2025/12/18/audio_1da30ee8b5.mp3?filename=humordome-magic-button-click-453258.mp3
+https://cdn.pixabay.com/download/audio/2025/04/29/audio_cc27d4eb0e.mp3?filename=freesounds123-magic-spell-333896.mp3
+https://cdn.pixabay.com/download/audio/2025/11/15/audio_721173197e.mp3?filename=lesiakower-error-mistake-sound-effect-incorrect-answer-437420.mp3
+https://cdn.pixabay.com/download/audio/2023/07/14/audio_c3fd1f3db8.mp3?filename=the_mountain-simple-background-158081.mp3
 
 Non-Imported Assets:
 NPC models, Title Screen, 2D Art.
