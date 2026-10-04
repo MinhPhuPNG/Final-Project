@@ -1,8 +1,8 @@
 Name:
 3x20
 
-To Launch: Simply press play in unity either from MainMenu scene.
-
+To Launch from Unity: Simply press play in unity either from MainMenu scene.
+For executable to run the game: https://minhphu.itch.io/3x20
 Concept:
 First Person simple story game where you follow the objectives listed, with a start scene to introduce NPC's visual novel dialogues. Gameplay includes collecting ingredients to brew potions and a 2D spelltracing minigame at the end. 
 
